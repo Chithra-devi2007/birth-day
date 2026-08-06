@@ -10,13 +10,13 @@
   *{ box-sizing: border-box; margin: 0; padding: 0; }
 
   :root{
-    --black: #0a0a0a;
-    --charcoal: #161412;
-    --gold: #d4af37;
-    --gold-light: #f2d888;
-    --gold-deep: #9c7a1f;
-    --cream: #f3ead2;
-    --muted: #b8ac8a;
+    --black: #120a1a;
+    --charcoal: #1e1428;
+    --gold: #9b6fd6;
+    --gold-light: #e0c3fc;
+    --gold-deep: #5b3b8c;
+    --cream: #f3ecff;
+    --muted: #b8a8d6;
   }
 
   html{ scroll-behavior: smooth; }
@@ -51,8 +51,50 @@
     padding: 60px 26px;
     position: relative;
     overflow-y: auto;
-    background: radial-gradient(ellipse at 50% 20%, #1c1810 0%, var(--black) 65%);
+    background-image: linear-gradient(180deg, rgba(15,8,22,0.84) 0%, rgba(15,8,22,0.9) 60%, rgba(10,6,15,0.96) 100%), url('bike.jpg');
+    background-size: cover;
+    background-position: center 18%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
+  @media (max-width: 640px){
+    section{ background-position: center 10%; background-attachment: scroll; }
+  }
+
+  #particleCanvas{
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .balloon{
+    position: fixed;
+    bottom: -120px;
+    width: 44px;
+    height: 56px;
+    border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.8;
+    animation: balloonFloat linear forwards;
+  }
+  .balloon::after{
+    content: '';
+    position: absolute;
+    bottom: -26px;
+    left: 50%;
+    width: 1px;
+    height: 26px;
+    background: rgba(155,111,214,0.3);
+  }
+  @keyframes balloonFloat{
+    0%{ transform: translateY(0) translateX(0) rotate(-4deg); }
+    50%{ transform: translateY(-55vh) translateX(24px) rotate(4deg); }
+    100%{ transform: translateY(-115vh) translateX(-10px) rotate(-4deg); opacity: 0; }
+  }
+
+  section > *{ position: relative; z-index: 2; }
 
   h1, h2{
     font-family: 'Playfair Display', serif;
@@ -112,7 +154,7 @@
   .dot{
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: rgba(212,175,55,0.3);
+    background: rgba(155,111,214,0.3);
     cursor: pointer;
     transition: all 0.25s ease;
   }
@@ -128,7 +170,7 @@
     transform: translateY(-50%);
     width: 40px; height: 40px;
     border-radius: 50%;
-    background: rgba(212,175,55,0.1);
+    background: rgba(155,111,214,0.1);
     backdrop-filter: blur(6px);
     border: 1px solid var(--gold-deep);
     font-size: 16px;
@@ -139,7 +181,7 @@
     align-items: center;
     justify-content: center;
   }
-  .nav-arrow:hover{ background: rgba(212,175,55,0.25); }
+  .nav-arrow:hover{ background: rgba(155,111,214,0.25); }
   .nav-arrow.prev{ left: 16px; }
   .nav-arrow.next{ right: 16px; }
   .nav-arrow:disabled{ opacity: 0; pointer-events: none; }
@@ -178,6 +220,7 @@
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out;
     background: linear-gradient(135deg, #2a2410, #100e08);
+    animation: photoEntrance 0.9s cubic-bezier(0.2,0.7,0.3,1) both, floatGlow 3.5s ease-in-out 0.9s infinite;
   }
   .tilt-photo img{ width: 100%; height: 100%; object-fit: cover; display: block; }
   #page2 h2{ font-size: 34px; margin-top: 22px; }
@@ -207,8 +250,8 @@
   #page4 h2{ font-size: 30px; margin-bottom: 22px; }
   .timeline{ max-width: 440px; text-align: left; }
   .timeline-item{
-    background: rgba(212,175,55,0.06);
-    border: 1px solid rgba(212,175,55,0.25);
+    background: rgba(155,111,214,0.06);
+    border: 1px solid rgba(155,111,214,0.25);
     border-left: 3px solid var(--gold);
     border-radius: 8px; padding: 13px 18px;
     margin-bottom: 11px;
@@ -252,8 +295,8 @@
     max-width: 440px; width: 100%;
   }
   .quote-card{
-    background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.02));
-    border: 1px solid rgba(212,175,55,0.3);
+    background: linear-gradient(135deg, rgba(155,111,214,0.08), rgba(155,111,214,0.02));
+    border: 1px solid rgba(155,111,214,0.3);
     border-radius: 10px;
     padding: 16px 20px;
     font-size: 14px;
@@ -295,7 +338,7 @@
     color: #1a1408; border: none;
     font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;
     padding: 13px 30px; border-radius: 999px; cursor: pointer; margin-top: 26px;
-    box-shadow: 0 10px 24px rgba(212,175,55,0.35);
+    box-shadow: 0 10px 24px rgba(155,111,214,0.35);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
     letter-spacing: 0.5px;
   }
@@ -342,13 +385,25 @@
   .flip-back{ background: linear-gradient(135deg, #2a2410, #100e08); transform: rotateY(180deg); }
   .flip-face p{ font-size: 15px; color: var(--cream); font-style: italic; line-height: 1.6; }
   .flip-face .tap-hint{ font-size: 11px; margin-top: 16px; color: var(--gold-deep); letter-spacing: 1px; text-transform: uppercase; }
+  .friend-photo{
+    width: 100px; height: 100px; border-radius: 50%;
+    object-fit: cover; margin-bottom: 14px;
+    border: 3px solid var(--gold-deep);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  }
 
   /* ---------- PAGE 10: ending ---------- */
   #page10 .name-end{ font-size: clamp(38px, 9vw, 60px); margin-bottom: 12px; }
-  #page10 .message{ max-width: 440px; font-size: 15px; line-height: 1.75; color: var(--muted); margin-bottom: 28px; }
+  #page10 .dob-end{ font-size: 13px; letter-spacing: 3px; color: var(--muted); margin-bottom: 6px; }
+  #page10 .message{ max-width: 440px; font-size: 15px; line-height: 1.75; color: var(--muted); margin-bottom: 20px; }
+  #page10 .final-quote{
+    max-width: 400px; font-size: 14px; font-style: italic;
+    color: var(--gold-light); line-height: 1.7; margin-bottom: 30px;
+    opacity: 0.9;
+  }
   .music-btn{
     display: inline-flex; align-items: center; gap: 10px;
-    background: rgba(212,175,55,0.08);
+    background: rgba(155,111,214,0.08);
     backdrop-filter: blur(8px);
     border: 1px solid var(--gold-deep); color: var(--gold-light);
     font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px;
@@ -356,7 +411,119 @@
     letter-spacing: 0.5px;
     transition: transform 0.15s ease, background 0.15s ease;
   }
-  .music-btn:hover{ background: rgba(212,175,55,0.2); transform: translateY(-2px); }
+  .music-btn:hover{ background: rgba(155,111,214,0.2); transform: translateY(-2px); }
+
+  .btn-row{
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 18px;
+    z-index: 60;
+    margin-top: 0;
+  }
+  .next-page-btn{
+    margin-top: 0;
+    margin-left: auto;
+    background: linear-gradient(135deg, #ffb3c9 0%, #ff6f9c 55%, #d43f74 100%);
+    border: none;
+    color: #4a0f26;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 6px 16px rgba(212,63,116,0.4);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .next-page-btn .arrow-circle{
+    background: none;
+    color: #4a0f26;
+    width: auto; height: auto;
+    font-size: 15px;
+    transition: transform 0.2s ease;
+  }
+  .next-page-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(212,63,116,0.5);
+  }
+  .next-page-btn:hover .arrow-circle{ transform: translateX(3px); }
+  .next-page-btn:active{ transform: translateY(0) scale(0.97); }
+
+  .prev-page-btn{
+    background: linear-gradient(135deg, #ffe0ec 0%, #ff9bbf 55%, #ff6f9c 100%);
+    border: none;
+    color: #6b0f33;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 10.5px;
+    padding: 8px 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 5px 14px rgba(255,111,156,0.4);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .prev-page-btn:hover{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,111,156,0.5); }
+  .prev-page-btn:active{ transform: translateY(0) scale(0.96); }
+
+  .start-btn{
+    display: inline-block;
+    border: 1px solid var(--gold-deep);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 9px 22px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    background: rgba(155,111,214,0.06);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .start-btn:hover{ background: rgba(155,111,214,0.2); transform: translateY(-2px); }
+
+  @keyframes floatGlow{
+    0%, 100%{ box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px var(--gold-deep), 0 0 30px rgba(155,111,214,0.15); transform: translateY(0); }
+    50%{ box-shadow: 0 40px 70px rgba(0,0,0,0.6), 0 0 0 1px var(--gold-deep), 0 0 50px rgba(155,111,214,0.35); transform: translateY(-8px); }
+  }
+  @keyframes photoEntrance{
+    0%{ opacity: 0; transform: scale(0.85) rotateY(-25deg); }
+    100%{ opacity: 1; transform: scale(1) rotateY(0); }
+  }
+
+  /* ---------- scattered quotes (page 6) ---------- */
+  .quote-cloud{
+    position: relative;
+    max-width: 480px;
+    width: 100%;
+    min-height: 380px;
+  }
+  .quote-chip{
+    background: linear-gradient(135deg, rgba(155,111,214,0.1), rgba(155,111,214,0.02));
+    border: 1px solid rgba(155,111,214,0.3);
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: 12.5px;
+    font-style: italic;
+    line-height: 1.4;
+    text-align: left;
+    position: relative;
+    margin-bottom: 12px;
+    max-width: 220px;
+  }
+  .quote-chip::before{ content: '\201C'; color: var(--gold); font-size: 18px; font-style: normal; margin-right: 3px; }
+  .quote-chip.right{ margin-left: auto; }
 
   @media (prefers-reduced-motion: reduce){
     .flame, .swipe-hint{ animation: none; }
@@ -365,16 +532,17 @@
 </head>
 <body>
 
+<canvas id="particleCanvas"></canvas>
+
 <div class="pages" id="pagesContainer">
 
 <!-- PAGE 1: hero -->
 <section id="page1">
-  <span class="eyebrow">Celebrating</span>
+  <button class="start-btn" id="celebratingBtn">Celebrating</button>
   <h1 class="name gold-text">ELANGO</h1>
   <div class="dob">15 . 09 . 2007</div>
   <div class="divider"></div>
   <p class="tagline">Some stories are written in ink, some in gold. This one begins today.</p>
-  <div class="swipe-hint">Swipe &#8594;</div>
 </section>
 
 <!-- PAGE 2: photo -->
@@ -385,7 +553,6 @@
     </div>
   </div>
   <h2 class="gold-text">Happy Birthday</h2>
-  <div class="swipe-hint">Swipe &#8594;</div>
 </section>
 
 <!-- PAGE 3: quote -->
@@ -393,7 +560,7 @@
   <span class="quote-mark">&#8220;</span>
   <p class="big-quote">Every king needs a beginning — this is yours, written one year stronger, one year wiser.</p>
   <p class="attribution">— for Elango</p>
-  <div class="swipe-hint">Swipe &#8594;</div>
+  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 4: childhood + timeline -->
@@ -405,12 +572,12 @@
   </div>
   <h2 class="gold-text">The journey so far</h2>
   <div class="timeline">
-    <div class="timeline-item">It started with a picture of a bike pinned to a wall — a dream parked, waiting for the day it would move.</div>
-    <div class="timeline-item">Every late night scrolling through bike pages wasn't wasted time — it was a plan being written in silence.</div>
-    <div class="timeline-item">The road never asked for permission. Elango just needed the courage to ride toward what he wanted.</div>
-    <div class="timeline-item">One day the dream bike won't be a wallpaper anymore — it'll be parked right outside, engine warm, ready to go.</div>
+    <div class="timeline-item">Every wire he fixed taught him patience — the same patience that waits for the day his Duke finally comes home.</div>
+    <div class="timeline-item">Hands trained to handle current and voltage now dream of handling a throttle on an open road.</div>
+    <div class="timeline-item">A trade learned with sweat, a dream carried with heart — Elango builds both, one day at a time.</div>
+    <div class="timeline-item">The same hands that connect circuits will one day grip handlebars and connect with the road.</div>
   </div>
-  <div class="swipe-hint">Swipe &#8594;</div>
+  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Journey</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 5: white Duke bike -->
@@ -421,18 +588,21 @@
     <p>The road is yours. Edit this line to add your own words about the year ahead.</p>
   </div>
   </div>
+  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Born to Ride</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 6: dialogues / quotes gallery -->
 <section id="page6">
   <h2 class="gold-text">Words for Elango</h2>
-  <div class="quote-grid">
-    <div class="quote-card">Edit this quote — a line about strength or ambition.</div>
-    <div class="quote-card">Edit this quote — a line about brotherhood or loyalty.</div>
-    <div class="quote-card">Edit this quote — a line about the year ahead.</div>
-    <div class="quote-card">Edit this quote — a line that only your friends would understand.</div>
+  <div class="quote-cloud">
+    <div class="quote-chip" style="margin-left: 6%;">A king doesn't wait for the crown — he builds it, wire by wire, day by day.</div>
+    <div class="quote-chip right" style="margin-right: 4%;">The loudest engines start with the quietest dreams.</div>
+    <div class="quote-chip" style="margin-left: 14%;">Real ones don't need luck — they need one more year to prove it.</div>
+    <div class="quote-chip right" style="margin-right: 10%;">Brotherhood isn't loud, it's the one who shows up every single time.</div>
+    <div class="quote-chip" style="margin-left: 2%;">Every year older is a year closer to everything he's chasing.</div>
+    <div class="quote-chip right" style="margin-right: 2%;">The road respects the ones who never stopped believing.</div>
   </div>
-  <div class="swipe-hint">Swipe &#8594;</div>
+  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 7: cake -->
@@ -490,7 +660,7 @@
   </div>
   <button class="btn" id="blowBtn">Blow the candles</button>
   <p class="cake-message" id="cakeMsg">Wish sealed. Happy birthday, Elango.</p>
-  <div class="swipe-hint">Swipe &#8594;</div>
+  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 8: scratch card -->
@@ -503,7 +673,7 @@
     <canvas id="scratchCanvas"></canvas>
   </div>
   </div>
-  <div class="swipe-hint">Swipe &#8594;</div>
+  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 9: flip wish -->
@@ -512,6 +682,7 @@
   <div class="flip-scene">
     <div class="flip-card" id="flipCard">
       <div class="flip-face flip-front">
+        <img src="photo4.jpg" alt="Childhood friend" class="friend-photo" onerror="this.style.display='none'">
         <p>Tap this card to open your wish</p>
         <span class="tap-hint">Tap me</span>
       </div>
@@ -520,85 +691,112 @@
       </div>
     </div>
   </div>
-  <div class="swipe-hint">Swipe &#8594;</div>
+  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 10: ending -->
 <section id="page10">
   <h1 class="name-end gold-text">Happy Birthday, Elango</h1>
+  <div class="dob-end">15 . 09 . 2007</div>
   <div class="divider"></div>
   <p class="message">Edit this closing message — the last line that says everything. Here's to the year ahead, written in gold.</p>
+  <p class="final-quote">"No matter how far the road takes you, there will always be a way back home to the people who love you."</p>
   <button class="music-btn" id="musicBtn">&#9835; Play our song</button>
   <audio id="bgMusic" src="song.mp3" loop></audio>
 </section>
 
 </div>
 
-<div class="dots" id="dotsNav"></div>
-<button class="nav-arrow prev" id="prevBtn" aria-label="Previous page">&#8592;</button>
-<button class="nav-arrow next" id="nextBtn" aria-label="Next page">&#8594;</button>
-
 <script>
-  // ---- Swipe / page navigation ----
+  // ---- Page navigation (button based, no swipe) ----
   const pagesContainer = document.getElementById('pagesContainer');
   const totalPages = 10;
   let currentPage = 0;
 
-  const dotsNav = document.getElementById('dotsNav');
-  for(let i = 0; i < totalPages; i++){
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => goToPage(i));
-    dotsNav.appendChild(dot);
-  }
-  const dots = dotsNav.querySelectorAll('.dot');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-
   function goToPage(index){
     currentPage = Math.max(0, Math.min(totalPages - 1, index));
     pagesContainer.style.transform = `translateX(-${currentPage * 100}vw)`;
-    dots.forEach((d, i) => d.classList.toggle('active', i === currentPage));
-    prevBtn.disabled = currentPage === 0;
-    nextBtn.disabled = currentPage === totalPages - 1;
   }
   goToPage(0);
 
-  prevBtn.addEventListener('click', () => goToPage(currentPage - 1));
-  nextBtn.addEventListener('click', () => goToPage(currentPage + 1));
+  document.getElementById('celebratingBtn').addEventListener('click', () => goToPage(1));
+
+  document.querySelectorAll('[data-next]').forEach((btn) => {
+    btn.addEventListener('click', () => goToPage(currentPage + 1));
+  });
+  document.querySelectorAll('[data-prev]').forEach((btn) => {
+    btn.addEventListener('click', () => goToPage(currentPage - 1));
+  });
+
   window.addEventListener('keydown', (e) => {
     if(e.key === 'ArrowRight') goToPage(currentPage + 1);
     if(e.key === 'ArrowLeft') goToPage(currentPage - 1);
   });
 
-  let touchStartX = 0, touchStartY = 0, isSwiping = false;
-  pagesContainer.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    isSwiping = true;
-  }, { passive: true });
-  pagesContainer.addEventListener('touchend', (e) => {
-    if(!isSwiping) return;
-    isSwiping = false;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)){
-      if(dx < 0) goToPage(currentPage + 1);
-      else goToPage(currentPage - 1);
+  // ---- Page 2 auto-advance after 2 seconds ----
+  const page2El = document.getElementById('page2');
+  let autoAdvanceTimer = null;
+  function checkAutoAdvance(){
+    if(currentPage === 1 && !autoAdvanceTimer){
+      autoAdvanceTimer = setTimeout(() => {
+        if(currentPage === 1) goToPage(2);
+        autoAdvanceTimer = null;
+      }, 2000);
     }
-  }, { passive: true });
+  }
+  document.getElementById('celebratingBtn').addEventListener('click', checkAutoAdvance);
 
-  let mouseStartX = null;
-  pagesContainer.addEventListener('mousedown', (e) => { mouseStartX = e.clientX; });
-  window.addEventListener('mouseup', (e) => {
-    if(mouseStartX === null) return;
-    const dx = e.clientX - mouseStartX;
-    if(Math.abs(dx) > 80){
-      if(dx < 0) goToPage(currentPage + 1);
-      else goToPage(currentPage - 1);
-    }
-    mouseStartX = null;
-  });
+  // ---- Animated gold particle background ----
+  const pCanvas = document.getElementById('particleCanvas');
+  const pCtx = pCanvas.getContext('2d');
+  function resizeCanvas(){
+    pCanvas.width = window.innerWidth;
+    pCanvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const particles = [];
+  const particleCount = 55;
+  for(let i = 0; i < particleCount; i++){
+    particles.push({
+      x: Math.random() * pCanvas.width,
+      y: Math.random() * pCanvas.height,
+      r: Math.random() * 1.8 + 0.4,
+      vy: -(Math.random() * 0.35 + 0.08),
+      vx: (Math.random() - 0.5) * 0.15,
+      alpha: Math.random() * 0.5 + 0.15
+    });
+  }
+  function animateParticles(){
+    pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+    particles.forEach(p => {
+      p.y += p.vy;
+      p.x += p.vx;
+      if(p.y < -10){ p.y = pCanvas.height + 10; p.x = Math.random() * pCanvas.width; }
+      pCtx.beginPath();
+      pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      pCtx.fillStyle = `rgba(155,111,214,${p.alpha})`;
+      pCtx.fill();
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  // ---- Floating balloons (purple + gold) ----
+  const balloonColors = ['#e0c3fc', '#9b6fd6', '#ff9bbf', '#ff6f9c'];
+  function spawnBalloon(){
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    b.style.left = (Math.random() * 90) + 'vw';
+    b.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+    const duration = 10 + Math.random() * 6;
+    b.style.animationDuration = duration + 's';
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), duration * 1000);
+  }
+  setInterval(spawnBalloon, 2200);
+  spawnBalloon();
 
   // ---- Reusable 3D tilt (desktop mouse only) ----
   function attachTilt(sectionEl, targetEl, maxDeg){
