@@ -208,22 +208,28 @@
     line-height: 1.7;
   }
 
-  /* ---------- PAGE 2: photo ---------- */
-  .tilt-wrap{ perspective: 900px; margin-bottom: 26px; }
-  .tilt-photo{
-    width: 240px;
-    height: 300px;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px var(--gold-deep);
-    border: 8px solid var(--charcoal);
-    transform-style: preserve-3d;
-    transition: transform 0.1s ease-out;
-    background: linear-gradient(135deg, #2a2410, #100e08);
-    animation: photoEntrance 0.9s cubic-bezier(0.2,0.7,0.3,1) both, floatGlow 3.5s ease-in-out 0.9s infinite;
+  /* ---------- PAGE 2: welcome text ---------- */
+  #page2 .page2-mark{
+    font-size: 40px;
+    color: var(--gold);
+    margin-bottom: 18px;
+    animation: markSpin 3s ease-in-out infinite;
   }
-  .tilt-photo img{ width: 100%; height: 100%; object-fit: cover; display: block; }
-  #page2 h2{ font-size: 34px; margin-top: 22px; }
+  @keyframes markSpin{
+    0%, 100%{ transform: rotate(0deg) scale(1); opacity: 0.85; }
+    50%{ transform: rotate(180deg) scale(1.15); opacity: 1; }
+  }
+  #page2 .page2-title{
+    font-size: 42px;
+    animation: photoEntrance 0.9s cubic-bezier(0.2,0.7,0.3,1) both;
+  }
+  #page2 .page2-sub{
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 320px;
+  }
 
   /* ---------- PAGE 3: quote ---------- */
   #page3 .big-quote{
@@ -236,28 +242,43 @@
   #page3 .quote-mark{ font-size: 60px; color: var(--gold-deep); line-height: 0.5; display: block; margin-bottom: 10px; }
   #page3 .attribution{ margin-top: 20px; font-size: 12px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
 
-  /* ---------- PAGE 4: childhood + timeline ---------- */
-  #page4 .childhood-wrap{ perspective: 800px; margin-bottom: 26px; }
-  #page4 .childhood-photo{
-    width: 170px; height: 170px; border-radius: 50%;
-    border: 6px solid var(--charcoal); box-shadow: 0 16px 32px rgba(0,0,0,0.5), 0 0 0 1px var(--gold-deep);
+  /* ---------- PAGE 4: cute memories photo cycle ---------- */
+  #page4 h2{ font-size: 32px; margin-bottom: 26px; }
+  .memory-frame{
+    width: 220px; height: 270px;
+    border-radius: 12px;
     overflow: hidden;
-    background: linear-gradient(135deg, #2a2410, #100e08);
-    transform-style: preserve-3d;
-    transition: transform 0.1s ease-out;
+    border: 6px solid var(--charcoal);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.55), 0 0 0 1px var(--gold-deep);
+    position: relative;
+    background: linear-gradient(135deg, #2a1c3d, #150c1f);
   }
-  #page4 .childhood-photo img{ width: 100%; height: 100%; object-fit: cover; }
-  #page4 h2{ font-size: 30px; margin-bottom: 22px; }
-  .timeline{ max-width: 440px; text-align: left; }
-  .timeline-item{
-    background: rgba(155,111,214,0.06);
-    border: 1px solid rgba(155,111,214,0.25);
-    border-left: 3px solid var(--gold);
-    border-radius: 8px; padding: 13px 18px;
-    margin-bottom: 11px;
-    font-size: 14px; line-height: 1.5;
-    color: var(--cream);
+  .memory-frame img{
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
   }
+  .memory-frame img.active{ opacity: 1; }
+  .memory-caption{
+    margin-top: 20px;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .memory-dots{
+    display: flex;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .memory-dots span{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(155,111,214,0.3);
+    transition: all 0.3s ease;
+  }
+  .memory-dots span.active{ background: var(--gold); width: 16px; border-radius: 3px; }
 
   /* ---------- PAGE 5: white Duke bike ---------- */
   #page5{
@@ -365,31 +386,40 @@
   .scratch-wrap img{ width: 100%; height: 100%; object-fit: cover; display: block; }
   .scratch-wrap canvas{ position: absolute; top: 0; left: 0; cursor: grab; touch-action: none; }
 
-  /* ---------- PAGE 9: flip wish ---------- */
-  #page9 h2{ font-size: 30px; margin-bottom: 26px; }
-  .flip-scene{ perspective: 1200px; width: 250px; height: 310px; }
-  .flip-card{
-    width: 100%; height: 100%; position: relative;
-    transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4,0.2,0.2,1);
-    cursor: pointer;
+  /* ---------- PAGE 9: full screen friend photo ---------- */
+  #page9{
+    padding: 0;
+    background-image: linear-gradient(180deg, rgba(18,10,26,0.25) 0%, rgba(18,10,26,0.55) 55%, rgba(10,6,15,0.92) 100%), url('photo4.jpg');
+    background-size: cover;
+    background-position: center 20%;
+    background-repeat: no-repeat;
   }
-  .flip-card.flipped{ transform: rotateY(180deg); }
-  .flip-face{
-    position: absolute; inset: 0; border-radius: 8px;
-    backface-visibility: hidden; display: flex; align-items: center; justify-content: center;
-    flex-direction: column; padding: 26px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+  #page9 .friend-content{
+    position: relative;
+    z-index: 2;
+    padding: 0 30px;
+    margin-top: auto;
+    margin-bottom: 90px;
+  }
+  #page9 .friend-eyebrow{
+    display: inline-block;
     border: 1px solid var(--gold-deep);
+    color: var(--gold-light);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+    background: rgba(155,111,214,0.1);
   }
-  .flip-front{ background: linear-gradient(135deg, #1c1810, #0a0a0a); }
-  .flip-back{ background: linear-gradient(135deg, #2a2410, #100e08); transform: rotateY(180deg); }
-  .flip-face p{ font-size: 15px; color: var(--cream); font-style: italic; line-height: 1.6; }
-  .flip-face .tap-hint{ font-size: 11px; margin-top: 16px; color: var(--gold-deep); letter-spacing: 1px; text-transform: uppercase; }
-  .friend-photo{
-    width: 100px; height: 100px; border-radius: 50%;
-    object-fit: cover; margin-bottom: 14px;
-    border: 3px solid var(--gold-deep);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  #page9 .friend-quote{
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(20px, 5.5vw, 28px);
+    line-height: 1.5;
+    max-width: 440px;
+    margin: 0 auto;
   }
 
   /* ---------- PAGE 10: ending ---------- */
@@ -413,68 +443,43 @@
   }
   .music-btn:hover{ background: rgba(155,111,214,0.2); transform: translateY(-2px); }
 
-  .btn-row{
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 18px;
+  .corner-back{
+    position: fixed;
+    top: 18px;
+    left: 18px;
     z-index: 60;
-    margin-top: 0;
-  }
-  .next-page-btn{
-    margin-top: 0;
-    margin-left: auto;
-    background: linear-gradient(135deg, #ffb3c9 0%, #ff6f9c 55%, #d43f74 100%);
-    border: none;
-    color: #4a0f26;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 11px;
-    letter-spacing: 0.4px;
-    padding: 9px 18px;
-    border-radius: 999px;
-    cursor: pointer;
-    display: inline-flex;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(243,236,255,0.6);
+    font-size: 14px;
+    display: flex;
     align-items: center;
-    gap: 5px;
-    box-shadow: 0 6px 16px rgba(212,63,116,0.4);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
   }
-  .next-page-btn .arrow-circle{
-    background: none;
-    color: #4a0f26;
-    width: auto; height: auto;
-    font-size: 15px;
-    transition: transform 0.2s ease;
-  }
-  .next-page-btn:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 14px 30px rgba(212,63,116,0.5);
-  }
-  .next-page-btn:hover .arrow-circle{ transform: translateX(3px); }
-  .next-page-btn:active{ transform: translateY(0) scale(0.97); }
+  .corner-back.visible{ opacity: 1; pointer-events: auto; }
+  .corner-back:hover{ background: rgba(0,0,0,0.55); }
 
-  .prev-page-btn{
-    background: linear-gradient(135deg, #ffe0ec 0%, #ff9bbf 55%, #ff6f9c 100%);
-    border: none;
-    color: #6b0f33;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 10.5px;
-    padding: 8px 15px;
-    border-radius: 999px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    box-shadow: 0 5px 14px rgba(255,111,156,0.4);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  .tap-hint-arrow{
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 55;
+    font-size: 22px;
+    color: rgba(255,111,156,0.55);
+    pointer-events: none;
+    animation: tapPulse 1.6s ease-in-out infinite;
   }
-  .prev-page-btn:hover{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,111,156,0.5); }
-  .prev-page-btn:active{ transform: translateY(0) scale(0.96); }
+  @keyframes tapPulse{
+    0%, 100%{ transform: translateX(0); opacity: 0.4; }
+    50%{ transform: translateX(5px); opacity: 0.85; }
+  }
 
   .start-btn{
     display: inline-block;
@@ -528,11 +533,125 @@
   @media (prefers-reduced-motion: reduce){
     .flame, .swipe-hint{ animation: none; }
   }
+
+  /* ---------- Password lock screen ---------- */
+  #lockScreen{
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: radial-gradient(ellipse at 50% 30%, #241a33 0%, #120a1a 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+  #lockScreen.hidden{ opacity: 0; visibility: hidden; pointer-events: none; }
+  .lock-icon{ font-size: 34px; color: var(--gold-light); margin-bottom: 18px; }
+  .lock-title{
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+  .lock-sub{ font-size: 13px; color: var(--muted); margin-bottom: 26px; max-width: 280px; }
+  .lock-display{
+    display: flex;
+    gap: 5px;
+    margin-bottom: 26px;
+  }
+  .lock-digit{
+    width: 22px; height: 32px;
+    border-bottom: 2px solid var(--gold-deep);
+    color: var(--cream);
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lock-digit.filled{ border-color: var(--gold-light); }
+  .lock-dot{
+    color: var(--gold-deep);
+    font-size: 20px;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 4px;
+  }
+  .lock-keypad{
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    gap: 12px;
+  }
+  .key-btn{
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #b998e8 0%, #8a5fc9 55%, #5b3b8c 100%);
+    border: none;
+    color: #f3ecff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(138,95,201,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+    transition: all 0.15s ease;
+  }
+  .key-btn:hover{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(138,95,201,0.55); }
+  .key-btn:active{ background: linear-gradient(135deg, #8a5fc9 0%, #5b3b8c 100%); transform: scale(0.92); box-shadow: 0 3px 10px rgba(138,95,201,0.4); }
+  .key-clear, .key-back{
+    background: rgba(255,255,255,0.08);
+    color: var(--muted);
+    box-shadow: none;
+    font-size: 15px;
+  }
+  .key-clear:active, .key-back:active{ background: rgba(255,255,255,0.15); }
+  .lock-error{
+    margin-top: 14px;
+    font-size: 12px;
+    color: #ff8fa3;
+    min-height: 16px;
+  }
+  .lock-display.shake{ animation: shakeInput 0.4s ease; }
+  @keyframes shakeInput{
+    0%, 100%{ transform: translateX(0); }
+    25%{ transform: translateX(-8px); }
+    75%{ transform: translateX(8px); }
+  }
 </style>
 </head>
 <body>
 
+<div id="lockScreen">
+  <div class="lock-icon">&#128274;</div>
+  <div class="lock-title gold-text">A gift, locked in time</div>
+  <div class="lock-sub">Enter the date to unlock this birthday surprise for Elango.</div>
+  <div class="lock-display" id="lockDisplay">
+    <span class="lock-digit"></span><span class="lock-digit"></span><span class="lock-dot">.</span>
+    <span class="lock-digit"></span><span class="lock-digit"></span><span class="lock-dot">.</span>
+    <span class="lock-digit"></span><span class="lock-digit"></span><span class="lock-digit"></span><span class="lock-digit"></span>
+  </div>
+  <div class="lock-keypad" id="lockKeypad">
+    <button class="key-btn" data-key="1">1</button>
+    <button class="key-btn" data-key="2">2</button>
+    <button class="key-btn" data-key="3">3</button>
+    <button class="key-btn" data-key="4">4</button>
+    <button class="key-btn" data-key="5">5</button>
+    <button class="key-btn" data-key="6">6</button>
+    <button class="key-btn" data-key="7">7</button>
+    <button class="key-btn" data-key="8">8</button>
+    <button class="key-btn" data-key="9">9</button>
+    <button class="key-btn key-clear" data-key="clear">&#10005;</button>
+    <button class="key-btn" data-key="0">0</button>
+    <button class="key-btn key-back" data-key="back">&#9003;</button>
+  </div>
+  <div class="lock-error" id="lockError"></div>
+</div>
+
 <canvas id="particleCanvas"></canvas>
+<button class="corner-back" id="cornerBack" aria-label="Go back">&#8592;</button>
+<div class="tap-hint-arrow" id="tapHintArrow">&#8594;</div>
 
 <div class="pages" id="pagesContainer">
 
@@ -545,14 +664,11 @@
   <p class="tagline">Some stories are written in ink, some in gold. This one begins today.</p>
 </section>
 
-<!-- PAGE 2: photo -->
+<!-- PAGE 2: welcome -->
 <section id="page2">
-  <div class="tilt-wrap">
-    <div class="tilt-photo" id="tiltPhoto">
-      <img src="photo1.jpg" alt="Photo" onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:12px;font-weight:500;text-align:center;padding:0 16px;&quot;>Add photo1.jpg here</div>'">
-    </div>
-  </div>
-  <h2 class="gold-text">Happy Birthday</h2>
+  <div class="page2-mark">&#10022;</div>
+  <h2 class="gold-text page2-title">Happy Birthday</h2>
+  <p class="page2-sub">To someone who makes every day a little brighter.</p>
 </section>
 
 <!-- PAGE 3: quote -->
@@ -560,24 +676,20 @@
   <span class="quote-mark">&#8220;</span>
   <p class="big-quote">Every king needs a beginning — this is yours, written one year stronger, one year wiser.</p>
   <p class="attribution">— for Elango</p>
-  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
-<!-- PAGE 4: childhood + timeline -->
+<!-- PAGE 4: cute memories -->
 <section id="page4">
-  <div class="childhood-wrap">
-    <div class="childhood-photo" id="childhoodPhoto">
-      <img src="photo2.jpg" alt="Childhood photo" onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:11px;font-weight:500;text-align:center;padding:0 12px;&quot;>Add photo2.jpg here</div>'">
-    </div>
+  <h2 class="gold-text">Cute Memories</h2>
+  <div class="memory-frame" id="memoryFrame">
+    <img src="photo1.jpg" alt="Memory 1" class="active">
+    <img src="photo2.jpg" alt="Memory 2">
+    <img src="photo3.jpg" alt="Memory 3">
+    <img src="photo4.jpg" alt="Memory 4">
+    <img src="photo5.jpg" alt="Memory 5">
   </div>
-  <h2 class="gold-text">The journey so far</h2>
-  <div class="timeline">
-    <div class="timeline-item">Every wire he fixed taught him patience — the same patience that waits for the day his Duke finally comes home.</div>
-    <div class="timeline-item">Hands trained to handle current and voltage now dream of handling a throttle on an open road.</div>
-    <div class="timeline-item">A trade learned with sweat, a dream carried with heart — Elango builds both, one day at a time.</div>
-    <div class="timeline-item">The same hands that connect circuits will one day grip handlebars and connect with the road.</div>
-  </div>
-  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Journey</span><span class="arrow-circle">&#8594;</span></button></div>
+  <p class="memory-caption">Every memory made along the way.</p>
+  <div class="memory-dots" id="memoryDots"></div>
 </section>
 
 <!-- PAGE 5: white Duke bike -->
@@ -588,7 +700,6 @@
     <p>The road is yours. Edit this line to add your own words about the year ahead.</p>
   </div>
   </div>
-  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Born to Ride</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 6: dialogues / quotes gallery -->
@@ -602,7 +713,6 @@
     <div class="quote-chip" style="margin-left: 2%;">Every year older is a year closer to everything he's chasing.</div>
     <div class="quote-chip right" style="margin-right: 2%;">The road respects the ones who never stopped believing.</div>
   </div>
-  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 7: cake -->
@@ -630,27 +740,27 @@
         </feMerge>
       </filter>
     </defs>
-    <ellipse cx="110" cy="180" rx="95" ry="14" fill="#1c1810"/>
-    <rect x="25" y="120" width="170" height="55" rx="8" fill="#3a2f12"/>
-    <rect x="25" y="120" width="170" height="14" fill="#d4af37"/>
-    <rect x="45" y="80" width="130" height="45" rx="8" fill="#4a3c18"/>
-    <rect x="45" y="80" width="130" height="12" fill="#f2d888"/>
+    <ellipse cx="110" cy="180" rx="95" ry="14" fill="#1e1428"/>
+    <rect x="25" y="120" width="170" height="55" rx="8" fill="#2e1f42"/>
+    <rect x="25" y="120" width="170" height="14" fill="#9b6fd6"/>
+    <rect x="45" y="80" width="130" height="45" rx="8" fill="#3d2a56"/>
+    <rect x="45" y="80" width="130" height="12" fill="#e0c3fc"/>
     <g class="candle">
-      <rect x="100" y="55" width="6" height="26" fill="#d4af37"/>
+      <rect x="100" y="55" width="6" height="26" fill="#9b6fd6"/>
       <g class="flame flame-lg" filter="url(#flameGlow)">
         <path d="M103 32 C97 40 96 47 103 51 C110 47 109 40 103 32Z" fill="url(#flameOuter)"/>
         <path d="M103 40 C100 44 100 48 103 50 C106 48 106 44 103 40Z" fill="url(#flameCore)"/>
       </g>
     </g>
     <g class="candle">
-      <rect x="70" y="60" width="6" height="21" fill="#9c7a1f"/>
+      <rect x="70" y="60" width="6" height="21" fill="#5b3b8c"/>
       <g class="flame flame-sm" filter="url(#flameGlow)">
         <path d="M73 40 C68 47 67 53 73 56 C79 53 78 47 73 40Z" fill="url(#flameOuter)"/>
         <path d="M73 47 C70.5 50 70.5 53.5 73 55 C75.5 53.5 75.5 50 73 47Z" fill="url(#flameCore)"/>
       </g>
     </g>
     <g class="candle">
-      <rect x="135" y="60" width="6" height="21" fill="#9c7a1f"/>
+      <rect x="135" y="60" width="6" height="21" fill="#5b3b8c"/>
       <g class="flame flame-sm2" filter="url(#flameGlow)">
         <path d="M138 40 C133 47 132 53 138 56 C144 53 143 47 138 40Z" fill="url(#flameOuter)"/>
         <path d="M138 47 C135.5 50 135.5 53.5 138 55 C140.5 53.5 140.5 50 138 47Z" fill="url(#flameCore)"/>
@@ -660,7 +770,6 @@
   </div>
   <button class="btn" id="blowBtn">Blow the candles</button>
   <p class="cake-message" id="cakeMsg">Wish sealed. Happy birthday, Elango.</p>
-  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 8: scratch card -->
@@ -669,29 +778,18 @@
   <p class="sub">Drag your finger across the card</p>
   <div class="scratch-perspective">
   <div class="scratch-wrap" id="scratchWrap">
-    <img src="photo3.jpg" alt="Surprise photo" onerror="this.style.background='linear-gradient(135deg, #2a2410, #100e08)'; this.alt=''">
+    <img src="photo3.jpg" alt="Surprise photo" onerror="this.style.background='linear-gradient(135deg, #2a1c3d, #150c1f)'; this.alt=''">
     <canvas id="scratchCanvas"></canvas>
   </div>
   </div>
-  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
-<!-- PAGE 9: flip wish -->
+<!-- PAGE 9: full screen friend photo -->
 <section id="page9">
-  <h2 class="gold-text">One more thing</h2>
-  <div class="flip-scene">
-    <div class="flip-card" id="flipCard">
-      <div class="flip-face flip-front">
-        <img src="photo4.jpg" alt="Childhood friend" class="friend-photo" onerror="this.style.display='none'">
-        <p>Tap this card to open your wish</p>
-        <span class="tap-hint">Tap me</span>
-      </div>
-      <div class="flip-face flip-back">
-        <p>Edit this text — write your real, personal wish for Elango here.</p>
-      </div>
-    </div>
+  <div class="friend-content">
+    <span class="friend-eyebrow">One more thing</span>
+    <p class="friend-quote gold-text">Childhood to continue our friendship — some bonds don't grow up, they just grow stronger.</p>
   </div>
-  <div class="btn-row"><button class="prev-page-btn" data-prev>&#8592; <span>Back</span></button><button class="next-page-btn" data-next><span>Next</span><span class="arrow-circle">&#8594;</span></button></div>
 </section>
 
 <!-- PAGE 10: ending -->
@@ -708,24 +806,88 @@
 </div>
 
 <script>
+  // ---- Password lock screen (numeric keypad) ----
+  const lockScreen = document.getElementById('lockScreen');
+  const lockDisplay = document.getElementById('lockDisplay');
+  const digitEls = lockDisplay.querySelectorAll('.lock-digit');
+  const lockError = document.getElementById('lockError');
+  const CORRECT_CODE = '15092007';
+  let enteredDigits = '';
+
+  function renderDigits(){
+    digitEls.forEach((el, i) => {
+      if(i < enteredDigits.length){
+        el.textContent = enteredDigits[i];
+        el.classList.add('filled');
+      } else {
+        el.textContent = '';
+        el.classList.remove('filled');
+      }
+    });
+  }
+
+  function tryUnlock(){
+    if(enteredDigits === CORRECT_CODE){
+      lockScreen.classList.add('hidden');
+      lockError.textContent = '';
+    } else {
+      lockError.textContent = 'Incorrect date. Try again.';
+      lockDisplay.classList.remove('shake');
+      void lockDisplay.offsetWidth;
+      lockDisplay.classList.add('shake');
+      setTimeout(() => { enteredDigits = ''; renderDigits(); }, 400);
+    }
+  }
+
+  document.getElementById('lockKeypad').addEventListener('click', (e) => {
+    const btn = e.target.closest('.key-btn');
+    if(!btn) return;
+    const key = btn.dataset.key;
+    if(key === 'clear'){
+      enteredDigits = '';
+      lockError.textContent = '';
+      renderDigits();
+    } else if(key === 'back'){
+      enteredDigits = enteredDigits.slice(0, -1);
+      lockError.textContent = '';
+      renderDigits();
+    } else {
+      if(enteredDigits.length < 8){
+        enteredDigits += key;
+        renderDigits();
+        if(enteredDigits.length === 8){
+          setTimeout(tryUnlock, 200);
+        }
+      }
+    }
+  });
+
   // ---- Page navigation (button based, no swipe) ----
   const pagesContainer = document.getElementById('pagesContainer');
   const totalPages = 10;
   let currentPage = 0;
+  const cornerBack = document.getElementById('cornerBack');
+  const tapHintArrow = document.getElementById('tapHintArrow');
 
   function goToPage(index){
     currentPage = Math.max(0, Math.min(totalPages - 1, index));
     pagesContainer.style.transform = `translateX(-${currentPage * 100}vw)`;
+    cornerBack.classList.toggle('visible', currentPage > 0);
+    tapHintArrow.style.display = (currentPage === 0 || currentPage === totalPages - 1) ? 'none' : 'block';
   }
   goToPage(0);
 
   document.getElementById('celebratingBtn').addEventListener('click', () => goToPage(1));
+  cornerBack.addEventListener('click', () => goToPage(currentPage - 1));
 
-  document.querySelectorAll('[data-next]').forEach((btn) => {
-    btn.addEventListener('click', () => goToPage(currentPage + 1));
-  });
-  document.querySelectorAll('[data-prev]').forEach((btn) => {
-    btn.addEventListener('click', () => goToPage(currentPage - 1));
+  // Tap anywhere on a page's content to advance, except on interactive controls
+  const noAdvanceSelector = '#lockScreen, .key-btn, #blowBtn, #scratchCanvas, #musicBtn, #celebratingBtn, .corner-back';
+  document.querySelectorAll('.pages > section').forEach((sec, idx) => {
+    if(idx === 0 || idx === totalPages - 1) return; // skip page1 (button) and last page
+    sec.addEventListener('click', (e) => {
+      if(e.target.closest(noAdvanceSelector)) return;
+      if(currentPage === idx) goToPage(currentPage + 1);
+    });
   });
 
   window.addEventListener('keydown', (e) => {
@@ -734,7 +896,6 @@
   });
 
   // ---- Page 2 auto-advance after 2 seconds ----
-  const page2El = document.getElementById('page2');
   let autoAdvanceTimer = null;
   function checkAutoAdvance(){
     if(currentPage === 1 && !autoAdvanceTimer){
@@ -784,7 +945,7 @@
   animateParticles();
 
   // ---- Floating balloons (purple + gold) ----
-  const balloonColors = ['#e0c3fc', '#9b6fd6', '#ff9bbf', '#ff6f9c'];
+  const balloonColors = ['#e0c3fc', '#9b6fd6', '#c9a3f0', '#7a4fb5'];
   function spawnBalloon(){
     const b = document.createElement('div');
     b.className = 'balloon';
@@ -797,6 +958,25 @@
   }
   setInterval(spawnBalloon, 2200);
   spawnBalloon();
+
+  // ---- Page 4: cute memories photo cycle (every 1 second) ----
+  const memoryFrame = document.getElementById('memoryFrame');
+  const memoryImgs = memoryFrame.querySelectorAll('img');
+  const memoryDots = document.getElementById('memoryDots');
+  memoryImgs.forEach((img, i) => {
+    const dot = document.createElement('span');
+    if(i === 0) dot.classList.add('active');
+    memoryDots.appendChild(dot);
+  });
+  const dotEls = memoryDots.querySelectorAll('span');
+  let memoryIndex = 0;
+  setInterval(() => {
+    memoryImgs[memoryIndex].classList.remove('active');
+    dotEls[memoryIndex].classList.remove('active');
+    memoryIndex = (memoryIndex + 1) % memoryImgs.length;
+    memoryImgs[memoryIndex].classList.add('active');
+    dotEls[memoryIndex].classList.add('active');
+  }, 1000);
 
   // ---- Reusable 3D tilt (desktop mouse only) ----
   function attachTilt(sectionEl, targetEl, maxDeg){
@@ -811,8 +991,6 @@
     });
   }
 
-  attachTilt(document.getElementById('page2'), document.getElementById('tiltPhoto'), 20);
-  attachTilt(document.getElementById('page4'), document.getElementById('childhoodPhoto'), 18);
   attachTilt(document.getElementById('page5'), document.getElementById('bikeContent'), 10);
   attachTilt(document.getElementById('page7'), document.getElementById('cakeSvg'), 14);
   attachTilt(document.getElementById('page8'), document.getElementById('scratchWrap'), 12);
@@ -850,9 +1028,9 @@
   function setupScratch(){
     canvas.width = scratchWrap.clientWidth;
     canvas.height = scratchWrap.clientHeight;
-    ctx.fillStyle = '#9c7a1f';
+    ctx.fillStyle = '#5b3b8c';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#f2d888';
+    ctx.fillStyle = '#e0c3fc';
     ctx.font = '500 15px Poppins, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Scratch here', canvas.width / 2, canvas.height / 2);
@@ -879,11 +1057,6 @@
   canvas.addEventListener('touchstart', (e) => { e.stopPropagation(); scratching = true; const p = getPos(e); scratchAt(p.x, p.y); });
   canvas.addEventListener('touchmove', (e) => { e.preventDefault(); e.stopPropagation(); const p = getPos(e); scratchAt(p.x, p.y); }, { passive: false });
   canvas.addEventListener('touchend', (e) => { e.stopPropagation(); scratching = false; });
-
-  // ---- Page 9: flip card ----
-  document.getElementById('flipCard').addEventListener('click', function(){
-    this.classList.toggle('flipped');
-  });
 
   // ---- Page 10: music toggle ----
   const musicBtn = document.getElementById('musicBtn');
