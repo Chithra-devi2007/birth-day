@@ -256,6 +256,12 @@
     position: relative;
     background: linear-gradient(135deg, #2a1c3d, #150c1f);
   }
+  @media (max-width: 380px){
+    .memory-frame{ width: 180px; height: 225px; }
+  }
+  @media (max-height: 700px){
+    .memory-frame{ width: 190px; height: 235px; }
+  }
   .memory-frame img{
     position: absolute;
     inset: 0;
@@ -265,6 +271,7 @@
     transition: opacity 0.5s ease;
   }
   .memory-frame img.active{ opacity: 1; }
+  .memory-frame img[alt="Memory 6"]{ object-position: center 15%; }
   .memory-caption{
     margin-top: 20px;
     font-size: 13px;
@@ -766,6 +773,7 @@
     <img src="photo3.jpg" alt="Memory 3">
     <img src="photo4.jpg" alt="Memory 4">
     <img src="photo5.jpg" alt="Memory 5">
+    <img src="bike.jpg" alt="Memory 6">
   </div>
   <p class="memory-caption">Every memory made along the way.</p>
   <div class="memory-dots" id="memoryDots"></div>
