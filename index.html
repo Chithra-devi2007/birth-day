@@ -422,26 +422,81 @@
     margin: 0 auto;
   }
 
-  /* ---------- PAGE 10: ending ---------- */
-  #page10 .name-end{ font-size: clamp(38px, 9vw, 60px); margin-bottom: 12px; }
-  #page10 .dob-end{ font-size: 13px; letter-spacing: 3px; color: var(--muted); margin-bottom: 6px; }
-  #page10 .message{ max-width: 440px; font-size: 15px; line-height: 1.75; color: var(--muted); margin-bottom: 20px; }
-  #page10 .final-quote{
-    max-width: 400px; font-size: 14px; font-style: italic;
-    color: var(--gold-light); line-height: 1.7; margin-bottom: 30px;
-    opacity: 0.9;
+  /* ---------- PAGE 10: gift reveal ending ---------- */
+  .gift-stage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
-  .music-btn{
-    display: inline-flex; align-items: center; gap: 10px;
-    background: rgba(155,111,214,0.08);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--gold-deep); color: var(--gold-light);
-    font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px;
-    padding: 12px 26px; border-radius: 999px; cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: transform 0.15s ease, background 0.15s ease;
+  .gift-stage.opened{ opacity: 0; transform: scale(0.7); pointer-events: none; position: absolute; }
+  .gift-box{
+    position: relative;
+    width: 140px;
+    height: 110px;
+    animation: giftBounce 2s ease-in-out infinite;
   }
-  .music-btn:hover{ background: rgba(155,111,214,0.2); transform: translateY(-2px); }
+  @keyframes giftBounce{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-10px); }
+  }
+  .gift-base{
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 140px; height: 78px;
+    background: linear-gradient(135deg, #b998e8, #7a4fb5);
+    border-radius: 6px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .gift-lid{
+    position: absolute;
+    top: 18px; left: -8px;
+    width: 156px; height: 26px;
+    background: linear-gradient(135deg, #d9c2f5, #9b6fd6);
+    border-radius: 6px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    transition: transform 0.5s ease;
+    transform-origin: left center;
+  }
+  .gift-ribbon-v{
+    position: absolute;
+    top: 0; left: 62px;
+    width: 16px; height: 96px;
+    background: linear-gradient(180deg, #ff9bbf, #ff6f9c);
+    z-index: 2;
+  }
+  .gift-ribbon-h{
+    position: absolute;
+    top: 18px; left: 0;
+    width: 140px; height: 16px;
+    background: linear-gradient(90deg, #ff9bbf, #ff6f9c);
+    z-index: 2;
+  }
+  .gift-tap-hint{
+    margin-top: 24px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    animation: tapPulse 1.6s ease-in-out infinite;
+  }
+
+  .gift-reveal{
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+  }
+  .gift-reveal.show{ opacity: 1; transform: scale(1); }
+  .gift-wish{
+    font-size: clamp(30px, 8vw, 48px);
+    line-height: 1.25;
+  }
+  .gift-date{
+    margin-top: 18px;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--gold-light);
+  }
 
   .corner-back{
     position: fixed;
@@ -792,15 +847,21 @@
   </div>
 </section>
 
-<!-- PAGE 10: ending -->
+<!-- PAGE 10: gift reveal ending -->
 <section id="page10">
-  <h1 class="name-end gold-text">Happy Birthday, Elango</h1>
-  <div class="dob-end">15 . 09 . 2007</div>
-  <div class="divider"></div>
-  <p class="message">Edit this closing message — the last line that says everything. Here's to the year ahead, written in gold.</p>
-  <p class="final-quote">"No matter how far the road takes you, there will always be a way back home to the people who love you."</p>
-  <button class="music-btn" id="musicBtn">&#9835; Play our song</button>
-  <audio id="bgMusic" src="song.mp3" loop></audio>
+  <div class="gift-stage" id="giftStage">
+    <div class="gift-box" id="giftBox">
+      <div class="gift-lid"></div>
+      <div class="gift-base"></div>
+      <div class="gift-ribbon-v"></div>
+      <div class="gift-ribbon-h"></div>
+    </div>
+    <p class="gift-tap-hint" id="giftTapHint">Tap to open your gift</p>
+  </div>
+  <div class="gift-reveal" id="giftReveal">
+    <h1 class="gift-wish gold-text">WISH YOU<br>HAPPY BIRTHDAY</h1>
+    <div class="gift-date">15 . 09 . 2026</div>
+  </div>
 </section>
 
 </div>
@@ -881,7 +942,7 @@
   cornerBack.addEventListener('click', () => goToPage(currentPage - 1));
 
   // Tap anywhere on a page's content to advance, except on interactive controls
-  const noAdvanceSelector = '#lockScreen, .key-btn, #blowBtn, #scratchCanvas, #musicBtn, #celebratingBtn, .corner-back';
+  const noAdvanceSelector = '#lockScreen, .key-btn, #blowBtn, #scratchCanvas, #celebratingBtn, .corner-back, #giftStage';
   document.querySelectorAll('.pages > section').forEach((sec, idx) => {
     if(idx === 0 || idx === totalPages - 1) return; // skip page1 (button) and last page
     sec.addEventListener('click', (e) => {
@@ -1058,19 +1119,47 @@
   canvas.addEventListener('touchmove', (e) => { e.preventDefault(); e.stopPropagation(); const p = getPos(e); scratchAt(p.x, p.y); }, { passive: false });
   canvas.addEventListener('touchend', (e) => { e.stopPropagation(); scratching = false; });
 
-  // ---- Page 10: music toggle ----
-  const musicBtn = document.getElementById('musicBtn');
-  const bgMusic = document.getElementById('bgMusic');
-  let playing = false;
-  musicBtn.addEventListener('click', () => {
-    if(!playing){
-      bgMusic.play().catch(() => {});
-      musicBtn.innerHTML = '&#9835; Pause our song';
-    } else {
-      bgMusic.pause();
-      musicBtn.innerHTML = '&#9835; Play our song';
+  // ---- Page 10: gift box open reveal ----
+  const giftStage = document.getElementById('giftStage');
+  const giftBox = document.getElementById('giftBox');
+  const giftReveal = document.getElementById('giftReveal');
+  const giftTapHint = document.getElementById('giftTapHint');
+
+  function burstConfetti(){
+    const colors = ['#b998e8', '#9b6fd6', '#ff9bbf', '#ff6f9c', '#e0c3fc'];
+    for(let i = 0; i < 40; i++){
+      const c = document.createElement('div');
+      c.style.position = 'fixed';
+      c.style.left = '50%';
+      c.style.top = '40%';
+      c.style.width = '7px';
+      c.style.height = '10px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      c.style.zIndex = '80';
+      c.style.pointerEvents = 'none';
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 100 + Math.random() * 180;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist - 60;
+      c.animate([
+        { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random()*360}deg)`, opacity: 0 }
+      ], { duration: 1100 + Math.random() * 500, easing: 'cubic-bezier(0.2,0.7,0.3,1)' });
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 1700);
     }
-    playing = !playing;
+  }
+
+  giftStage.addEventListener('click', () => {
+    if(giftStage.classList.contains('opened')) return;
+    giftBox.querySelector('.gift-lid').style.transform = 'translateY(-40px) rotate(-25deg)';
+    giftTapHint.style.opacity = '0';
+    burstConfetti();
+    setTimeout(() => {
+      giftStage.classList.add('opened');
+      giftReveal.classList.add('show');
+    }, 350);
   });
 </script>
 
